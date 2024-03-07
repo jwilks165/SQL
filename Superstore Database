@@ -1,0 +1,48 @@
+What are the prices of different items in the superstore dataset?
+
+SELECT item_name, price
+FROM superstore;
+
+
+What is the total count of each item?
+
+SELECT Count(item_name), price
+FROM superstore
+GROUP BY price;
+
+
+What is the total price of all the items?
+
+SELECT item_name, SUM(price)
+FROM superstore
+GROUP BY item_id;
+
+
+How many items are priced above $50?
+
+SELECT item_name, price
+FROM superstore
+WHERE price>50;
+
+
+What does the data look like for the Kitchen Supplies category?
+
+SELECT item_name, category, price, average_rating
+FROM superstore
+WHERE category="Kitchen Supplies";
+
+
+What are the highest rated items throughout all the categories?
+
+SELECT item_name, average_rating, category
+FROM superstore
+WHERE average_rating>4.5
+ORDER BY average_rating DESC;
+
+
+What is the highest rating items out of the Kitchen Supplies or Furnishings categories?
+
+SELECT item_name, average_rating, price, category
+FROM superstore
+WHERE category="Kitchen Supplies" OR category="Furnishings"
+Order BY average_rating DESC;
