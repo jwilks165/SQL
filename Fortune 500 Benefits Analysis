@@ -1,0 +1,43 @@
+-- Taking a quick view of the dataset
+
+SELECT *
+From fortune_companies;
+
+-- Which companies have the most revenue?
+
+SELECT company_name, revenue
+FROM fortune_companies
+ORDER BY revenue DESC;
+
+-- Does this revenue correlate with paid time off?
+
+SELECT company_name, revenue, paid_time_off_days AS PTO
+FROM fortune_companies
+Order BY PTO DESC;
+
+-- Rank the companies with at least 300 revenue into groups based on how many weeks of paid time off they receive.
+
+SELECT company_name, revenue, paid_time_off_days as PTO,
+CASE
+WHEN paid_time_off_days >= 21 THEN "3 Weeks"
+WHEN paid_time_off_days >= 14 THEN "2 Weeks"
+WHEN paid_time_off_days >= 7 Then "1 Week"
+ELSE "< 1 Week" END AS "PTO_Weeks"
+FROM fortune_companies
+WHERE revenue > 300
+ORDER BY PTO DESC;
+
+-- How many companies have healthcare benefits, at least three weeks of paid_time_off_days, and at least eight maternity_leave_weeks? Also if any of the companies belong to the Technology industry with three weeks of paid_time_off_days, include them as well.
+
+SELECT COUNT(company_name), healthcare_benefits, paid_time_off_days AS PTO, maternity_leave_weeks
+FROM fortune_companies
+WHERE healthcare_benefits >= 1 
+AND PTO >= 21
+AND maternity_leave_weeks >= 8
+OR (industry = 'technology' AND PTO >= 21);
+
+-- What is the total number of paid_time_off_days for the entire technology industry with healthcare benefits?
+
+SELECT SUM(paid_time_off_days) AS total_PTO, industry
+FROM fortune_companies
+HAVING healthcare_benefits = 1
