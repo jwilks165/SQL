@@ -1,0 +1,41 @@
+--Try to figure out which attribute you'd use to join the two Netflix tables. How can you see what attributes (aka columns) there are in each table to find out what they have in common?
+
+SELECT * FROM netflix_titles_info LIMIT 3;
+SELECT * FROM netflix_people LIMIT 3;
+
+-- I can join the two tables on the show_ID column. I looked at a short list of the data in both tables using the above queries, and that is how I found they shared the same show_ID column.
+
+-- How many movie titles are there in the database? (movies only, not tv shows)
+
+ SELECT COUNT(title)
+ FROM netflix_titles_info
+ WHERE type = 'Movie'; 
+
+-- When was the most recent batch of tv shows and/or movies added to the database?
+
+SELECT MAX(date_added)
+FROM netflix_titles_info
+WHERE type = 'Movie'
+OR type = 'TV Show';
+
+-- List all the movies and tv shows in alphabetical order.
+
+SELECT title
+FROM netflix_titles_info
+ORDER BY title;
+
+-- Who was the Director for the movie The Starling?
+
+SELECT director
+FROM "netflix_titles_info" titles
+JOIN "netflix_people" people
+ON people.show_id = titles.show_id
+WHERE title = 'The Starling';
+
+-- What is the oldest movie in the database and what year was it made?
+
+SELECT date_added, title, release_year
+FROM netflix_titles_info
+WHERE type = 'Movie'
+ORDER BY date_added
+LIMIT 1;
